@@ -12,33 +12,74 @@ function Square (props) {
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
+  constructor(props) { //needed a constructor to have class variables(?)
+    super(props);
+
+    //class-scope variables need a "this."
+    this.colNum = 4;
+    this.rowNum = 4;
+    this.sliceNum = 4;
+  }
+
+  renderSquare(x) { //builds the jsx for an individual square
+    // console.log("position =  ", x)
     return (
-      <Square 
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)} 
+      <Square
+        key = {x} //need a key to keep track of this square later
+        value={this.props.squares[x]}
+        onClick={() => this.props.onClick(x)} 
       /> 
     );
   }
 
+  squaresInRow(j, k) { //builds row out of squares
+    var squares = [];
+    var position = 0;
+
+    for (let i = 0; i < this.colNum; i++) {
+      console.log(i, j, k);
+      position = i + (j * this.rowNum) + (k * this.colNum * this.rowNum) //3d index -> 1d index
+      console.log("position =  ", position);
+      squares.push(this.renderSquare(position));
+    }
+    return squares;
+  }
+
+  rowsInSlice(k) {  //builds slice out of rows
+    var rows = [];
+    var keyName = "";
+
+    for (let j = 0; j < this.rowNum; j++) {
+      console.log(j, k);
+      keyName = j.toString() + k.toString();
+      console.log(keyName);
+      rows.push(
+        <div className="slice-row" key={keyName}>
+         {this.squaresInRow(j, k)}
+        </div>
+      )
+    }
+    return rows;
+  }
+
+  slicesInBoard() { //builds 3d board out of slices
+    var slices = [];
+
+    for (let k = 0; k < this.sliceNum; k++) {
+      slices.push(
+        <div className="board-slice" key={k}>
+          {this.rowsInSlice(k)}
+        </div>
+      )
+    }
+    return slices;
+  }
+
+
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.slicesInBoard()}
       </div>
     );
   }
