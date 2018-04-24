@@ -181,6 +181,7 @@ class Game extends React.Component {
             squares={squares}
             winning={this.state.winning}
             onClick={(i, j, k) => this.handleClick(i, j, k)}
+            () => this.handleSubmit()
           />
         </div>
         <div className="game-info">
