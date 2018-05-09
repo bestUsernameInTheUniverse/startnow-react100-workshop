@@ -1,6 +1,7 @@
 # tic-tac-toe
 
 An interactive tic-tac-toe game.
+This started as a React introduction walk-through, but I went further by turning it into a 3D tic-tac-toe game.
 
 ## Setup
 
@@ -13,9 +14,3 @@ npm run build
 ```
 npm start
 ```
-
-## Contributing
-
-* Please follow the AirBnB styleguide.
-
-* Open a pull request, all contributions will be considered.
